@@ -76,11 +76,11 @@
 					<div class="block-group block-group-2-up">
 						<div class="block center-text">
 							<img src="sass-logo.png" alt="SASS" width='200' height='200'>
-							<p>SASS</p>
+							<p><a href="http://sass-lang.com">SASS</a></p>
 						</div>
 						<div class="block center-text">
 							<img src="compass-logo.png" alt="Compass" width='200' height='200'>
-							<p>Compass</p>
+							<p><a href="http://compass-style.org">Compass</a></p>
 						</div>
 					</div>
 				</section>
@@ -89,19 +89,17 @@
 					<h1>SASS?</h1>
 					<ul>
 						<li class="fragment">CSS Preprocessor</li>
-						<li class="fragment">Compiles <code>.scss</code> files <code>.css</code></li>
+						<li class="fragment">Compiles <code>.scss</code> to files <code>.css</code></li>
 						<li class="fragment">Features to help write CSS</li>
 						<li class="fragment">SASS is a superset of CSS</li>
 					</ul>
 				</section>
 
 				<section class="left">
-					<header>
-						<h4>SASS - Variables</h4>
-					</header>
+					<h4>Variables</h4>
 					<pre><code>
 $body-font: "Lucida Grande","Segoe UI", Arial, sans-serif;
-$header-font: "Avenir LT W01 35 Light", Arial, Helvetica, sans-serif;
+$header-font: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
 
 body {
 	font-size: 100%;
@@ -116,22 +114,24 @@ h1, h2, h3, h4, h5, h6 {
 				</section>
 
 				<section class="left">
-					<header>
-						<h4>SASS - Default Variables</h4>
-					</header>
-					<pre><code class="scss">$button-color: #D71C0D;
-$button-color: #005E95 !default; // doesn't override
+					<h4>Defaults</h4>
+					<pre><code class="scss">$button-color: #005E95;
+$button-color: #D71C0D !default; // doesn't override
 
 .button {
 	padding: 1em;
-	$background: $button-color;
+	display: inline-block;
+	font-family: sans-serif;
+	color: white;
+	text-decoration: none;
+	border-radius: 3px;
+	background: $button-color;
 }</code></pre>
+					<a href="http://sassmeister.com/gist/9330033">http://sassmeister.com/gist/9330033</a>
 				</section>
 
 				<section class="left">
-					<header>
-						<h4>SASS - Partials and Imports</h4>
-					</header>
+					<h4>Partials and Imports</h4>
 					<div class="block-group block-group-2-up">
 						<div class="block">
 							<pre><code class="scss">// framework/_defaults.scss
@@ -170,114 +170,291 @@ h1, h2, h3, h4, h5, h6 {
 				</section>
 
 				<section class="left">
-					<header>
-						<h4>SASS - Nesting</h4>
-					</header>
+					<h4>Nesting</h4>
+							<pre><code class="scss">.header-bar {
+  background: #3984D2;
+  padding: 1rem;
+  font-family: sans-serif;
+  color: white;
+  h1 {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+  }
+  a {
+    text-decoration: none;
+    display: inline-block;
+    border: 1px solid white;
+    margin: 1rem 0 0 0;
+    padding: 0.75rem 2rem;
+    color: white;
+  }
+}</code></pre>
+					<a href="http://sassmeister.com/gist/9330186">http://sassmeister.com/gist/9330186</a>
+				</section>
+
+				<section class="left">
+					<h4>Nesting Continued</h4>
+					<pre><code class="scss">.button {
+	padding: .75rem 1.5em;
+	display: inline-block;
+	font-family: sans-serif;
+	color: white;
+	text-decoration: none;
+	border-radius: 3px;
+	background: #005E95;
+	border: 2px solid #005E95;
+	&:hover {
+	  background: transparent;
+	  color: #005E95;
+	}
+	&.danger {
+	  background: #C01E1A;
+	  border-color: #C01E1A;
+	  &:hover {
+	    background: transparent;
+	    color: #C01E1A;
+	  }
+	}
+}</code></pre>
+					<a href="http://sassmeister.com/gist/9330666">http://sassmeister.com/gist/9330666</a>
+				</section>
+
+				<section class="left">
+					<h4><code>@mixin</code></h4>
+<pre><code class="scss">@mixin button-color($color){
+  background: $color;
+  border-color: $color;
+  &:hover {
+    background: transparent;
+    border-color: $color;
+    color: $color;
+  }
+}
+
+.button {
+	padding: .75rem 1.5em;
+	display: inline-block;
+	font-family: sans-serif;
+	color: white;
+	text-decoration: none;
+	border: 2px solid;
+	@include button-color(#005E95);
+	&.danger {
+	  @include button-color(#C01E1A);
+	}
+}</code></pre>
+					<a href="http://sassmeister.com/gist/9331344">http://sassmeister.com/gist/9331344</a>
+				</section>
+
+				<section class="left">
+					<h4><code>@media</code></h4>
+					<pre><code class="scss">html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  color: white;
+}
+
+body {
+  background: green;
+  @media screen and (max-width: 1024px) {
+    background: blue;
+  }
+  @media screen and (max-width: 768px) {
+    background: red;
+  }
+}</code></pre>
+					<a href="http://sassmeister.com/gist/9331447">http://sassmeister.com/gist/9331447</a>
+				</section>
+
+				<section class="left">
+					<h4><code>@mixin</code> for Responsive Design</h4>
+					<pre><code class="scss">@mixin on-small-screens (){
+  @media screen and (max-width: 768px){
+    @content
+  }
+}
+
+.article-header {
+  font-family: sans-serif;
+  font-size: 4rem;
+  @include on-small-screens {
+    font-size: 2rem;
+  }
+}</code></pre>
+					<a href="http://sassmeister.com/gist/9331704">http://sassmeister.com/gist/9331704</a>
+				</section>
+
+				<section class="left">
+					<h4>IE Specific <code>@mixin</code></h4>
+							<pre><code class="html">&lt;!--[if IE 8]&gt;&lt;html class=&quot;ie ie8&quot;&gt;&lt;![endif]--&gt;
+&lt;!--[if IE 9]&gt;&lt;html class=&quot;ie ie9&quot;&gt;&lt;![endif]--&gt;
+&lt;!--[if !IE]&gt;&lt;!--&gt;&lt;html&gt;&lt;!--&lt;![endif]--&gt;</code></pre>
+							<pre><code class="scss">@mixin for-ie8(){
+  html.ie8 & {
+    @content;
+  }
+}
+
+.my-layout {
+  float: left;
+  @include for-ie8 {
+    float: none;
+  }
+}</code></pre>
+					<a href="http://sassmeister.com/gist/9331753">http://sassmeister.com/gist/9331753</a>
+				</section>
+
+				<section class="left">
+					<h4><code>@mixin</code> for Print Styles</h4>
+					<pre><code class="scss">@mixin for-print(){
+  @media print {
+    @content
+  }
+}
+
+header {
+  background: black;
+  color: white;
+  @include for-print {
+    background: white;
+    color: black;
+  }
+}</code></pre>
+					<a href="http://sassmeister.com/gist/9332042">http://sassmeister.com/gist/9332042</a>
+				</section>
+
+				<section class="left">
+					<h4>Retina Display <code>@mixin</code></h4>
+					<pre><code class="scss">@mixin for-retina-display {
+  @media only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (-moz-min-device-pixel-ratio: 2),
+    only screen and (-o-min-device-pixel-ratio: 2/1),
+    only screen and (min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 192dpi),
+    only screen and (min-resolution: 2dppx){
+      @content
+  }
+}
+
+small {
+  font-size: 11px;
+  @include for-retina-display {
+    font-size: 9px;
+  }
+}</code></pre>
+					<a href="http://sassmeister.com/gist/9332258">http://sassmeister.com/gist/9332258</a>
+				</section>
+
+				<section class="left">
+					<h4><code>@extend</code></h4>
+						<pre><code class="scss">@mixin button-color($color){
+	...
+}
+
+.button {
+  padding: .75rem 1.5em;
+	display: inline-block;
+	font-family: sans-serif;
+	color: white;
+	text-decoration: none;
+	border: 2px solid;
+	@include button-color(gray);
+}
+
+.main-button {
+  @extend .button;
+  @include button-color(#005E95);
+}
+
+.danger-button {
+  @extend .button;
+  @include button-color(#C01E1A);
+}</code></pre>
+					<a href="http://sassmeister.com/gist/9332450">http://sassmeister.com/gist/9332450</a>
+				</section>
+
+				<section class="left">
+					<h4><code>@placeholder</code></h4>
+					<pre><code class="scss">@mixin button-color($color){
+  ...
+}
+
+%button {
+  padding: .75rem 1.5em;
+	display: inline-block;
+	font-family: sans-serif;
+	color: white;
+	text-decoration: none;
+	border: 2px solid;
+}
+
+.main-button {
+  @extend %button;
+  @include button-color(#005E95);
+}
+
+.danger-button {
+  @extend %button;
+  @include button-color(#C01E1A);
+}</code></pre>
+					<a href="http://sassmeister.com/gist/9332472">http://sassmeister.com/gist/9332472</a>
+				</section>
+
+				<section class="left">
+					<h1>Lets Abuse Our New Powers</h1>
 				</section>
 
 				<section class="left">
 					<header>
-						<h4>SASS - Nesting</h4>
+						<h3>Bloopers - Over Nesting</h3>
 					</header>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS - Nesting w/ Parent </h4>
-					</header>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS - <code>@mixin</code></h4>
-					</header>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS - <code>@mixin</code> Defaults</h4>
-					</header>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS - <code>@mixin</code> Content</h4>
-					</header>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS - A <code>@mixin</code> for Responsive Design</h4>
-					</header>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS - An IE Specific <code>@mixin</code></h4>
-					</header>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS - <code>@mixin</code> for Print Styles</h4>
-					</header>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS - Retina Display <code>@mixin</code></h4>
-					</header>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS - <code>@extend</code></h4>
-					</header>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS - <code>@placeholder</code></h4>
-					</header>
-				</section>
-
-				<section class="left">
-					<h2>With Great Power...</h2>
-				</section>
-
-				<section class="left">
-					<header>
-						<h4>SASS Bloopers - Over Nesting</h4>
-					</header>
+					<p>Abusing nesting can bloat file size.</p>
+					<br>
 					<p>
 						<a href="http://sassmeister.com/gist/9314303">Example</a> - <a href="http://sassmeister.com/gist/9314346">Solution</a>
 					</p>
-					<p class="fragment">The "C" is for "Cascading"</p>
+					<br>
 					<p class="fragment">Inception Rule: never go more then 3 levels deep</p>
 				</section>
 
 				<section class="left">
 					<header>
-						<h4>SASS Bloopers - Comma Operator</h4>
+						<h3>Bloopers - Comma Operator</h3>
 					</header>
+					<p>The comma selector multiplies the amount of nesting</p>
+					<br>
 					<p>
 						<a href="http://sassmeister.com/gist/9314403">Example</a> - <a href="http://sassmeister.com/gist/9314461">Solution</a>
 					</p>
+					<br>
 					<p class="fragment">Try not to use the comma operator when you are nesting</p>
 				</section>
 
 				<section class="left">
 					<header>
-						<h4>SASS Bloopers - Overusing mixins</h4>
+						<h3>Bloopers - Overusing <code>@mixin</code></h3>
 					</header>
+					<p>Mixins easily bloat files with duplicate properties</p>
+					<br>
 					<p>
 						<a href="http://sassmeister.com/gist/9314534">Example</a> - <a href="http://sassmeister.com/gist/9314549">Solution</a>
 					</p>
+					<br>
 					<p class="fragment">Mixins are dynamic, extend is static</p>
 				</section>
 
 				<section>
-					<h1>SASS++</h1>
+					<h1>Get Started</h1>
+					<ul>
+						<li><code>sass</code> command line tool (Ruby)</li>
+						<li><code>libsass</code> if you hate Ruby</li>
+						<li>IDE Integration (Visual Studio, Eclipse, ect&hellip;)</li>
+						<li>Build Systems (Ant, Maven, Grunt, Gulp, ect&hellip;)</li>
+						<li>Frameworks (Rails, Express, Django)</li>
+						<li>Apps (Koala, Codebox, Hammer)</li>
+					</ul>
 				</section>
 
 				<section class="left">
@@ -289,36 +466,45 @@ h1, h2, h3, h4, h5, h6 {
 					</ul>
 				</section>
 
-				<section class="left">
+				<section>
+					<h2>Fun w/ Compass</h2>
+					<a href="http://sassmeister.com/gist/9333804">http://sassmeister.com/gist/9333804</a>
+				</section>
+
+				<section>
+					<h2>Fun w/ Burbon</h2>
+					<a href="http://sassmeister.com/gist/9333958">http://sassmeister.com/gist/9333958</a>
+				</section>
+
+				<section>
 					<h2>Compass VS Bourbon</h2>
 					<div class="block-group block-group-2-up">
 						<div class="block">
 							<h3>Compass</h3>
 							<ul>
-								<li>Big,  requires extra installs</li>
-								<li>Complex typographic system</li>
-								<li>Comes with its own plugin system</li>
-								<li>Powerful tools that extend SASS</li>
+								<li>Steep learning curve</li>
+								<li>Powerful Tools</li>
+								<li>Compass Ecosystem</li>
 							</ul>
 						</div>
 						<div class="block">
 							<h3>Bourbon</h3>
 							<ul>
-								<li>Lightweight, just copy <code>.scss</code> files</li>
-								<li>Just plain SASS</li>
-								<li>Lots of good common components</li>
-								<li>Simpler typography tools</li>
+								<li>Shallow learning curve</li>
+								<li>Just  SASS</li>
+								<li>Common Components</li>
 							</ul>
 						</div>
 					</div>
 				</section>
 
 				<section class="left">
+					<h1>Thanks</h1>
+					<br>
 					<p>Twitter : <a href="http://twitter.com/patrickarlt">@patrickarlt</a></p>
 					<br>
-					<p>GitHub : <a href="http://github.com/patrickarlt">GitHub</a></p>
-					<br>
 					<p>Slides : <a href="http://patrickarlt.github.io/dev-summit-talk-sass">http://patrickarlt.github.io/dev-summit-talk-sass</a></p>
+					<br>
 					<br>
 					<div class="center-text">
 						<img src="esri-logo.png" alt="Esri" width="280" height="118" >
